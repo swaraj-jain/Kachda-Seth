@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PlayActivity">
+
+    <ImageView
+        android:id="@+id/currImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:srcCompat="@drawable/default_profile_image" />
+
+    <Button
+        android:id="@+id/biod_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Biodegradable" />
+
+    <Button
+        android:id="@+id/nonbiod_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Non-Biodegradable" />
+
+    <TextView
+        android:id="@+id/bottomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nothing much.\nYou Suck!" />
+
+    <Button
+        android:id="@+id/playAgain_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PlayAgain" />
+
+    <Button
+        android:id="@+id/checkldb_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leaderboard" />
+</LinearLayout>
