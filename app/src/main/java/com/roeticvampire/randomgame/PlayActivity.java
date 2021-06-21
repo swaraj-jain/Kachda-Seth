@@ -293,12 +293,12 @@ public class PlayActivity extends AppCompatActivity {
         float maxValueInMap =(Collections.max(labeledProbability.values()));
 
         for (Map.Entry<String, Float> entry : labeledProbability.entrySet()) {
-            //Log.d("Bro", entry.getKey()+" "+entry.getValue());
-            float delta=0.0001f;
-            if (Math.abs(entry.getValue()-maxValueInMap)<delta) {
-                Log.d("Bro", "OKAY THIS SHIT IS MAXXXXXXXX: "+entry.getKey()+" "+entry.getValue());
+            Log.d("Bro", entry.getKey()+" "+entry.getValue());
+           // float delta=0.0001f;
+            if (entry.getValue()==maxValueInMap) {
+                Log.d("Bro", "OKAY THIS SHIT IS MAXXYYXXXXXX: "+entry.getKey()+" "+entry.getValue());
                 result=categories.get(entry.getKey());
-                score=(int)Math.max(50*entry.getValue(),10f);
+                score=(int)Math.max(500*entry.getValue(),10f);
                 Log.d("Bro", "Score to get is: "+score+" and the answer is "+result);
                 bottomTextView.setText(entry.getKey()); //________________________FOR NOW ONLY
             }
