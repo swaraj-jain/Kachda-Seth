@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:height="0dp"
-        android:text="Oh we need a logo and icon thing Ig now?" />
+        android:text="" />
 
     <ImageButton
         android:id="@+id/login_btn"
