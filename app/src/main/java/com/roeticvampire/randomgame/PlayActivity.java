@@ -3,23 +3,54 @@ package com.roeticvampire.randomgame;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.renderscript.Element;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.roeticvampire.randomgame.ml.WasteClassifier;
+
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.support.common.FileUtil;
+import org.tensorflow.lite.support.common.TensorOperator;
+import org.tensorflow.lite.support.common.TensorProcessor;
+import org.tensorflow.lite.support.common.ops.NormalizeOp;
+import org.tensorflow.lite.support.image.ImageProcessor;
+import org.tensorflow.lite.support.image.TensorImage;
+import org.tensorflow.lite.support.image.ops.ResizeOp;
+import org.tensorflow.lite.support.image.ops.ResizeWithCropOrPadOp;
+import org.tensorflow.lite.support.image.ops.Rot90Op;
+import org.tensorflow.lite.support.label.TensorLabel;
+import org.tensorflow.lite.*;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PlayActivity extends AppCompatActivity {
     private static final int BIODEGRADABLE=0;
@@ -34,6 +65,24 @@ public class PlayActivity extends AppCompatActivity {
     ImageButton biod_btn,nonbiod_btn, checkLDB_btn,playAgain_btn;
     LinearLayout pregamelayer,postgamelayer;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    HashMap<String,Integer> categories;
+    private static final float IMAGE_MEAN = 0.0f;
+    private static final float IMAGE_STD = 1.0f;
+    private static final float PROBABILITY_MEAN = 0.0f;
+    private static final float PROBABILITY_STD = 255.0f;
+
+    private Bitmap bitmap;
+    private List<String> labels;
+    ImageView imageView;
+    Uri imageuri;
+
+    private Interpreter tflite;
+    private MappedByteBuffer tfliteModel;
+    private TensorImage inputImageBuffer;
+    private int imageSizeX;
+    private int imageSizeY;
+    private TensorBuffer outputProbabilityBuffer;
+    private TensorProcessor probabilityProcessor;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -46,6 +95,7 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        categories=new HashMap<String, Integer>();
         setContentView(R.layout.activity_play);
         currImage=findViewById(R.id.currImageView);
         bottomTextView=findViewById(R.id.bottomTextView);
@@ -61,6 +111,12 @@ public class PlayActivity extends AppCompatActivity {
         user_name=findViewById(R.id.yourNameView);
         user_email=findViewById(R.id.yourEmailView);
         user_profile=findViewById(R.id.profileView);
+        initialize();
+        try{
+            tflite=new Interpreter(loadmodelfile(this));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
         SharedPreferences sharedpreferences = getSharedPreferences("Personal_details", Context.MODE_PRIVATE);
         name=sharedpreferences.getString("NAME","");
@@ -143,7 +199,29 @@ public class PlayActivity extends AppCompatActivity {
 
     }
 
-    private int OldieMagic(Bitmap bitmap) {
+    private int OldieMagic(Bitmap bitmap) {try {
+        WasteClassifier model = WasteClassifier.newInstance(this);
+        int imageTensorIndex = 0;
+        int[] imageShape = tflite.getInputTensor(imageTensorIndex).shape(); // {1, height, width, 3}
+        imageSizeY = imageShape[1];
+        imageSizeX = imageShape[2];
+        DataType imageDataType = tflite.getInputTensor(imageTensorIndex).dataType();
+        int probabilityTensorIndex = 0;
+        int[] probabilityShape =
+                tflite.getOutputTensor(probabilityTensorIndex).shape(); // {1, NUM_CLASSES}
+        DataType probabilityDataType = tflite.getOutputTensor(probabilityTensorIndex).dataType();
+
+        inputImageBuffer = new TensorImage(imageDataType);
+        outputProbabilityBuffer = TensorBuffer.createFixedSize(probabilityShape, probabilityDataType);
+        probabilityProcessor = new TensorProcessor.Builder().add(getPostprocessNormalizeOp()).build();
+
+        inputImageBuffer = loadImage(bitmap);
+
+        tflite.run(inputImageBuffer.getBuffer(),outputProbabilityBuffer.getBuffer().rewind());
+        showresult();
+    } catch (IOException e) {
+        // TODO Handle the exception
+    }
         //Waiting for you to guide me with all the mess that TF is
         //Until then I;ll assume every image is BIODEGRADABLE;
         return BIODEGRADABLE;
@@ -168,4 +246,105 @@ public class PlayActivity extends AppCompatActivity {
 
         }
     }
+
+
+
+
+
+
+    private TensorImage loadImage(final Bitmap bitmap) {
+        // Loads bitmap into a TensorImage.
+        inputImageBuffer.load(bitmap);
+
+        // Creates processor for the TensorImage.
+        int cropSize = Math.min(bitmap.getWidth(), bitmap.getHeight());
+        // TODO(b/143564309): Fuse ops inside ImageProcessor.
+        ImageProcessor imageProcessor =
+                new ImageProcessor.Builder()
+                        .add(new ResizeWithCropOrPadOp(cropSize, cropSize))
+                        .add(new ResizeOp(imageSizeX, imageSizeY, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
+                        .add(getPreprocessNormalizeOp())
+                        .build();
+        return imageProcessor.process(inputImageBuffer);
+    }
+
+    private MappedByteBuffer loadmodelfile(Activity activity) throws IOException {
+        AssetFileDescriptor fileDescriptor=activity.getAssets().openFd("waste_classifier.tflite");
+        FileInputStream inputStream=new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel=inputStream.getChannel();
+        long startoffset = fileDescriptor.getStartOffset();
+        long declaredLength=fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY,startoffset,declaredLength);
+    }
+
+    private TensorOperator getPreprocessNormalizeOp() {
+        return new NormalizeOp(IMAGE_MEAN, IMAGE_STD);
+    }
+    private TensorOperator getPostprocessNormalizeOp(){
+        return new NormalizeOp(PROBABILITY_MEAN, PROBABILITY_STD);
+    }
+
+    private void showresult(){
+
+        Map<String, Float> labeledProbability =
+                new TensorLabel(labels, probabilityProcessor.process(outputProbabilityBuffer))
+                        .getMapWithFloatValue();
+        float maxValueInMap =(Collections.max(labeledProbability.values()));
+
+        for (Map.Entry<String, Float> entry : labeledProbability.entrySet()) {
+            //Log.d("Bro", entry.getKey()+" "+entry.getValue());
+            float delta=0.0001f;
+            if (Math.abs(entry.getValue()-maxValueInMap)<delta) {
+                Log.d("Bro", "OKAY THIS SHIT IS MAXXXXXXXX: "+entry.getKey()+" "+entry.getValue());
+                result=categories.get(entry.getKey());
+                score=(int)Math.max(50*entry.getValue(),10f);
+                Log.d("Bro", "Score to get is: "+score+" and the answer is "+result);
+                bottomTextView.setText(entry.getKey()); //________________________FOR NOW ONLY
+            }
+        }
+    }
+
+    void initialize(){
+        labels = new ArrayList<>();
+        categories=new HashMap<String,Integer>();
+        labels.add("Xlight");   categories.put("Xlight",NON_BIODEGRADABLE);
+        labels.add("bandaid");categories.put("bandaid",BIODEGRADABLE);
+        labels.add("battery");categories.put("battery",NON_BIODEGRADABLE);
+        labels.add("bowlsanddishes");categories.put("bowlsanddishes",BIODEGRADABLE);
+        labels.add("bread");categories.put("bread",BIODEGRADABLE);
+        labels.add("bulb");categories.put("bulb",NON_BIODEGRADABLE);
+        labels.add("cans");categories.put("cans",BIODEGRADABLE);
+        labels.add("carton");categories.put("carton",BIODEGRADABLE);
+        labels.add("chopsticks");categories.put("chopsticks",BIODEGRADABLE);
+        labels.add("cigarettebutt");categories.put("cigarettebutt",BIODEGRADABLE);
+        labels.add("diapers");categories.put("diapers",BIODEGRADABLE);
+        labels.add("facialmask");categories.put("facialmask",BIODEGRADABLE);
+        labels.add("glassbottle");categories.put("glassbottle",NON_BIODEGRADABLE);
+        labels.add("leaflet");categories.put("leaflet",BIODEGRADABLE);
+        labels.add("leftovers");categories.put("leftovers",BIODEGRADABLE);
+        labels.add("medicinebottle");categories.put("medicinebottle",NON_BIODEGRADABLE);
+        labels.add("milkbox");categories.put("milkbox",BIODEGRADABLE);
+        labels.add("nailpolishbottle");categories.put("nailpolishbottle",NON_BIODEGRADABLE);
+        labels.add("napkin");categories.put("napkin",BIODEGRADABLE);
+        labels.add("newspaper");categories.put("newspaper",BIODEGRADABLE);
+        labels.add("nut");categories.put("nut",BIODEGRADABLE);
+        labels.add("penholder");categories.put("penholder",NON_BIODEGRADABLE);
+        labels.add("pesticidebottle");categories.put("pesticidebottle",NON_BIODEGRADABLE);
+        labels.add("plasticbag");categories.put("plasticbag",NON_BIODEGRADABLE);
+        labels.add("plasticbottle");categories.put("plasticbottle",NON_BIODEGRADABLE);
+        labels.add("plasticene");categories.put("plasticene",NON_BIODEGRADABLE);
+        labels.add("rag");categories.put("rag",BIODEGRADABLE);
+        labels.add("tabletcapsule");categories.put("tabletcapsule",BIODEGRADABLE);
+        labels.add("thermometer");categories.put("thermometer",NON_BIODEGRADABLE);
+        labels.add("toothbrush");categories.put("toothbrush",BIODEGRADABLE);
+        labels.add("toothpastetube");categories.put("toothpastetube",NON_BIODEGRADABLE);
+        labels.add("toothpick");categories.put("toothpick",BIODEGRADABLE);
+        labels.add("traditionalChinesemedicine");categories.put("traditionalChinesemedicine",BIODEGRADABLE);
+        labels.add("watermelonrind");categories.put("watermelonrind",BIODEGRADABLE);
+
+    }
+
+
+
+
 }
