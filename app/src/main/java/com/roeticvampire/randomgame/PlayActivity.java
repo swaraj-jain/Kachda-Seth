@@ -163,7 +163,7 @@ public class PlayActivity extends AppCompatActivity {
         nonbiod_btn.setClickable(false);
         if(response==result){
             //correct answer
-            score=50; //Need a better cooler function for this
+            //score=50; //Need a better cooler function for this
             bottomTextView.setText("Congratulations!\nThat was accurate!\nYou've gained "+score+" points");
             updateScorecard();
         }
@@ -219,12 +219,13 @@ public class PlayActivity extends AppCompatActivity {
 
         tflite.run(inputImageBuffer.getBuffer(),outputProbabilityBuffer.getBuffer().rewind());
         showresult();
+
     } catch (IOException e) {
         // TODO Handle the exception
     }
         //Waiting for you to guide me with all the mess that TF is
         //Until then I;ll assume every image is BIODEGRADABLE;
-        return BIODEGRADABLE;
+        return result;
 
 
     }
