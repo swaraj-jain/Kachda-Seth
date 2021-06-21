@@ -48,7 +48,12 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         leaderbdRecycler.setLayoutManager(new LinearLayoutManager(this));
         adapter = new LDB_Adapter(scoresList, this );
-        leaderbdRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+       // leaderbdRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        ((DividerItemDecoration) itemDecoration).setDrawable(getDrawable(R.drawable.divider));
+        leaderbdRecycler.addItemDecoration(itemDecoration);
+
+
         leaderbdRecycler.setAdapter(adapter);
 
 

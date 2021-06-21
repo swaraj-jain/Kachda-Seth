@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 public class loginActivity1 extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText user_email_input, user_password_input;
-    Button login_btn;
+    ImageButton login_btn;
     LinearLayout primaryScreen,secondaryOverlay;
     TextView forgot_password;
     Connection connection;

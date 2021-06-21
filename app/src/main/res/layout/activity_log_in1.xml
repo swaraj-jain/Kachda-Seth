@@ -10,37 +10,23 @@
         android:id="@+id/primaryView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/feef"
         android:orientation="vertical"
         tools:context=".IntroScreen">
 
 
-
-        <TextView
-            android:id="@+id/textView"
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="55dp"
-            android:paddingHorizontal="16dp"
-            android:text="Welcome back"
-            android:textColor="@color/light_blue"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:paddingHorizontal="16dp"
-            android:text="HOMIE!"
-            android:textColor="@color/light_blue"
-            android:textSize="48sp" />
-
+            android:layout_weight="0"
+            app:srcCompat="@drawable/login_header" />
 
         <LinearLayout
             android:id="@+id/login_email_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingVertical="16sp">
 
@@ -51,6 +37,7 @@
                 android:layout_marginHorizontal="24sp"
                 android:padding="@dimen/inner_frame_layout_padding"
                 android:text="Email"
+                android:textColor="@color/primary_skin"
                 android:textSize="18sp" />
 
             <EditText
@@ -58,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24sp"
+                android:backgroundTint="@color/primary_skin"
                 android:ems="10"
                 android:imeActionLabel="@string/app_name"
                 android:includeFontPadding="true"
@@ -66,17 +54,17 @@
                 android:paddingVertical="12sp"
                 android:paddingLeft="12sp"
                 android:paddingRight="12sp"
-                android:textColor="#DFDFDF"
-                android:textColorHighlight="@color/dark_blue"
-                android:textSize="18sp"
-                    />
+                android:textColor="@color/primary_skin"
+                android:textColorHighlight="@color/primary_skin"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/login_password_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="2dp"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingVertical="8sp">
 
@@ -86,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24sp"
                 android:text="Password"
+                android:textColor="@color/primary_skin"
                 android:textSize="18sp" />
 
             <EditText
@@ -93,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24sp"
+                android:backgroundTint="@color/primary_skin"
                 android:ems="10"
                 android:imeActionLabel="@string/app_name"
                 android:includeFontPadding="true"
@@ -101,29 +91,33 @@
                 android:paddingVertical="12sp"
                 android:paddingLeft="12sp"
                 android:paddingRight="12sp"
-                android:textColor="@color/light_blue"
-                android:textColorHighlight="@color/dark_blue"
+                android:shadowColor="@color/primary_skin"
+                android:textColor="@color/primary_skin"
                 android:textSize="18dp" />
+
         </LinearLayout>
 
 
-        <Button
+        <ImageButton
             android:id="@+id/Continue_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginLeft="24sp"
-            android:layout_marginRight="24sp"
-            android:text="Sign In" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="16dp"
+            app:srcCompat="@drawable/login_btn" />
 
         <TextView
             android:id="@+id/forgot_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="24dp"
+
             android:text="Forgot Password?"
             android:textAlignment="center"
-            android:textColor="@color/light_blue"
-            android:textSize="20sp" />
+            android:textColor="@color/primary_skin"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -153,7 +147,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:text="Please wait..."
-            android:textColor="@color/light_blue"
+            android:textColor="@color/primary_skin"
             android:textSize="18dp" />
     </LinearLayout>
 

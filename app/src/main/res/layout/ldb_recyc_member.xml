@@ -3,39 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="4dp">
 
-    <ImageView
-        android:id="@+id/profileView"
+    <TextView
+        android:id="@+id/counterView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:text="TextView"
+        android:textColor="@color/midtone_brown"
+        android:textSize="18sp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:paddingHorizontal="4dip"
+        android:paddingVertical="8dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profileView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:cropToPadding="true"
+            android:paddingHorizontal="2dp"
+            android:paddingVertical="2dp"
+            android:scaleType="fitXY"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:srcCompat="@drawable/default_profile_image"
+            app:strokeWidth="0.5dp"
+            tools:layout_editor_absoluteX="30dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="8"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/counterView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
 
         <TextView
             android:id="@+id/nameView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:padding="4dp"
+            android:text="TextView"
+            android:textColor="@color/midtone_brown"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/ScoreView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:padding="4dp"
+            android:text="TextView"
+            android:textColor="@color/primary_skin"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

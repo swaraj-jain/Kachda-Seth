@@ -4,43 +4,168 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/feef"
     android:orientation="vertical"
     tools:context=".PlayActivity">
 
-    <ImageView
-        android:id="@+id/currImageView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:srcCompat="@drawable/default_profile_image" />
+        android:layout_height="0dp"
+        android:layout_weight="1.5">
 
-    <Button
-        android:id="@+id/biod_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Biodegradable" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/blank_header" />
 
-    <Button
-        android:id="@+id/nonbiod_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Non-Biodegradable" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingHorizontal="4dip"
+                android:paddingVertical="8dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profileView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:cropToPadding="true"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="2dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                    app:srcCompat="@drawable/default_profile_image"
+                    app:strokeWidth="0.5dp"
+                    tools:layout_editor_absoluteX="30dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/yourNameView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:text="Name"
+                    android:textColor="@color/primary_brown"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/yourEmailView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:text="email_id"
+                    android:textColor="@color/primary_brown"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:paddingHorizontal="54dip"
+        android:paddingVertical="6dip">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/currImageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/circle"
+            android:cropToPadding="true"
+            android:scaleType="fitXY"
+            app:layout_constraintCircleRadius="16dp"
+            app:layout_constraintDimensionRatio="1:1"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/primary_brown"
+            app:strokeWidth="2dp"
+            tools:layout_editor_absoluteX="30dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/bottomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nothing much.\nYou Suck!" />
+        android:layout_weight="1"
+        android:text="Nothing much.\nYou Suck!"
+        android:textAlignment="center"
+        android:textColor="@color/primary_skin"
+        android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/playAgain_btn"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PlayAgain" />
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
-    <Button
-        android:id="@+id/checkldb_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Leaderboard" />
+        <LinearLayout
+            android:id="@+id/pregameLayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/biod_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="16dp"
+                app:srcCompat="@drawable/biod_btn" />
+            <ImageButton
+                android:id="@+id/nonbiod_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="16dp"
+                app:srcCompat="@drawable/nonbiod_btn" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/postgameLayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ImageButton
+                android:id="@+id/playAgain_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="16dp"
+                app:srcCompat="@drawable/playagain_btn" />
+
+            <ImageButton
+                android:id="@+id/checkldb_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:padding="16dp"
+                app:srcCompat="@drawable/leaderboard_btn" />
+
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

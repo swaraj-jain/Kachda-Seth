@@ -56,7 +56,7 @@ public class Register2 extends AppCompatActivity {
     private static final int IMAGE_PICK_CODE=1000;
     private static final int PERMISSION_CODE=1001;
 
-    Button register_btn;
+    ImageButton register_btn;
     private com.canhub.cropper.CropImage CropImage;
     String nvme, email_id;
     @Override

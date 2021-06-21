@@ -1,44 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/feef"
+    android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="186dp"
-        android:layout_marginTop="242dp"
-        android:layout_marginEnd="168dp"
-        android:layout_marginBottom="470dp"
-        android:text="Okay we Home Screening Now"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1">
 
-    <Button
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/blank_header" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:paddingHorizontal="4dip"
+                android:paddingVertical="8dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profileView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:cropToPadding="true"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="2dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                    app:srcCompat="@drawable/default_profile_image"
+                    app:strokeWidth="0.5dp"
+                    tools:layout_editor_absoluteX="30dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/yourNameView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:text="Name"
+                    android:textColor="@color/primary_brown"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/yourEmailView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:text="email_id"
+                    android:textColor="@color/primary_brown"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/yourscore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Your Score"
+            android:textAlignment="center"
+            android:textColor="@color/primary_skin"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/scoretextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/midtone_brown"
+            android:textSize="48sp" />
+    </LinearLayout>
+
+    <ImageButton
         android:id="@+id/leaderbd_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="LeaderBoard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:layout_weight="1"
+        android:background="@null"
+        android:padding="16dp"
+        app:srcCompat="@drawable/leaderboard_btn" />
 
-    <Button
+    <ImageButton
         android:id="@+id/play_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="40dp"
-        android:text="Play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderbd_btn" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@null"
+        android:padding="16dp"
+        app:srcCompat="@drawable/play_btn" />
+</LinearLayout>

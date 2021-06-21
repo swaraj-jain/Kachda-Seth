@@ -4,42 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/feef"
     android:orientation="vertical"
-    android:padding="4dp"
+    android:padding="16dp"
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="32dp"
+        app:srcCompat="@drawable/wastevector" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_weight="1"
+        android:height="0dp"
+        android:text="Oh we need a logo and icon thing Ig now?" />
 
-    <Button
+    <ImageButton
         android:id="@+id/login_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@android:style/Widget.Holo.ImageButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EAE01A"
-        android:backgroundTintMode="multiply"
-        android:shadowColor="#009688"
-        android:text="Log in"
-        app:iconTint="#0A8AEC"
-        app:rippleColor="#78CBEE"
-        app:strokeColor="#FFFFFF" />
+        android:background="@null"
+        android:padding="16dp"
+        app:srcCompat="@drawable/login_btn" />
 
-    <Button
+    <ImageButton
         android:id="@+id/sign_up_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@android:style/Widget.Holo.ImageButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EAE01A"
-        android:backgroundTintMode="multiply"
-        android:shadowColor="#009688"
-        android:text="Sign Up"
-        app:iconTint="#0A8AEC"
-        app:rippleColor="#78CBEE"
-        app:strokeColor="#FFFFFF" />
+        android:background="@null"
+        android:padding="16dp"
+        app:srcCompat="@drawable/signup_btn" />
 
 
 </LinearLayout>

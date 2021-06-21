@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     EditText name_input,email_input,password_input,password2_input;
     Connection connection;
-    Button register_btn;
+    ImageButton register_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
