@@ -293,10 +293,10 @@ public class PlayActivity extends AppCompatActivity {
         float maxValueInMap =(Collections.max(labeledProbability.values()));
 
         for (Map.Entry<String, Float> entry : labeledProbability.entrySet()) {
-            Log.d("Bro", entry.getKey()+" "+entry.getValue());
+           // Log.d("Bro", entry.getKey()+" "+entry.getValue());
            // float delta=0.0001f;
             if (entry.getValue()==maxValueInMap) {
-                Log.d("Bro", "OKAY THIS SHIT IS MAXXYYXXXXXX: "+entry.getKey()+" "+entry.getValue());
+                Log.d("Bro", "The identified object is: "+entry.getKey()+" "+entry.getValue());
                 result=categories.get(entry.getKey());
                 score=(int)Math.max(500*entry.getValue(),10f);
                 Log.d("Bro", "Score to get is: "+score+" and the answer is "+result);
@@ -318,7 +318,7 @@ public class PlayActivity extends AppCompatActivity {
         labels.add("carton");categories.put("carton",BIODEGRADABLE);
         labels.add("chopsticks");categories.put("chopsticks",BIODEGRADABLE);
         labels.add("cigarettebutt");categories.put("cigarettebutt",BIODEGRADABLE);
-        labels.add("diapers");categories.put("diapers",BIODEGRADABLE);
+        labels.add("diapers");categories.put("diapers",NON_BIODEGRADABLE);
         labels.add("facialmask");categories.put("facialmask",BIODEGRADABLE);
         labels.add("glassbottle");categories.put("glassbottle",NON_BIODEGRADABLE);
         labels.add("leaflet");categories.put("leaflet",BIODEGRADABLE);
