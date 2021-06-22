@@ -70,6 +70,8 @@ public class PlayActivity extends AppCompatActivity {
     private static final float IMAGE_STD = 1.0f;
     private static final float PROBABILITY_MEAN = 0.0f;
     private static final float PROBABILITY_STD = 255.0f;
+    private static String bioMessage="\n\nPlease put the garbage in the GREEN Dustbin";
+    private static String nonbioMessage="\n\nPlease put the garbage in the BLUE Dustbin";
 
     private Bitmap bitmap;
     private List<String> labels;
@@ -164,11 +166,11 @@ public class PlayActivity extends AppCompatActivity {
         if(response==result){
             //correct answer
             //score=50; //Need a better cooler function for this
-            bottomTextView.setText("Congratulations!\nThat was accurate!\nYou've gained "+score+" points");
+            bottomTextView.setText("Congratulations!\nThat was accurate!\nYou've gained "+score+" points"+((result==BIODEGRADABLE)?bioMessage:nonbioMessage));
             updateScorecard();
         }
         else{
-            bottomTextView.setText("Oops!\nThat wasn't right!\nWanna try again?");
+            bottomTextView.setText("Oops!\nThat wasn't right!"+((result==BIODEGRADABLE)?bioMessage:nonbioMessage));
         }
         playAgain_btn.setClickable(true);
         checkLDB_btn.setClickable(true);
