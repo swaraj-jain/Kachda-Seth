@@ -75,7 +75,6 @@ public class PlayActivity extends AppCompatActivity {
 
     private Bitmap bitmap;
     private List<String> labels;
-    ImageView imageView;
     Uri imageuri;
 
     private Interpreter tflite;
@@ -119,6 +118,16 @@ public class PlayActivity extends AppCompatActivity {
         }catch (Exception e) {
             e.printStackTrace();
         }
+        currImage.setOnClickListener(v->{
+            if(result==BIODEGRADABLE){
+                result=NON_BIODEGRADABLE;
+                 }
+            else
+                result=BIODEGRADABLE;
+            Log.d("Bro", "The result is now "+(result==BIODEGRADABLE?"BIODEGRADABLE":"NONBIODEGRADABLE"));
+
+
+        });
 
         SharedPreferences sharedpreferences = getSharedPreferences("Personal_details", Context.MODE_PRIVATE);
         name=sharedpreferences.getString("NAME","");
@@ -300,8 +309,8 @@ public class PlayActivity extends AppCompatActivity {
             if (entry.getValue()==maxValueInMap) {
                 Log.d("Bro", "The identified object is: "+entry.getKey()+" "+entry.getValue());
                 result=categories.get(entry.getKey());
-                score=(int)Math.max(500*entry.getValue(),10f);
-                Log.d("Bro", "Score to get is: "+score+" and the answer is "+result);
+                score=(int)Math.max(5000*entry.getValue(),10f);
+                Log.d("Bro", "Score to get is: "+score+" and the answer is "+(result==BIODEGRADABLE?"BIODERADABLE":"NONBIODEGRADABLE"));
                 bottomTextView.setText(entry.getKey()); //________________________FOR NOW ONLY
             }
         }
@@ -316,7 +325,7 @@ public class PlayActivity extends AppCompatActivity {
         labels.add("bowlsanddishes");categories.put("bowlsanddishes",BIODEGRADABLE);
         labels.add("bread");categories.put("bread",BIODEGRADABLE);
         labels.add("bulb");categories.put("bulb",NON_BIODEGRADABLE);
-        labels.add("cans");categories.put("cans",BIODEGRADABLE);
+        labels.add("cans");categories.put("cans",NON_BIODEGRADABLE);
         labels.add("carton");categories.put("carton",BIODEGRADABLE);
         labels.add("chopsticks");categories.put("chopsticks",BIODEGRADABLE);
         labels.add("cigarettebutt");categories.put("cigarettebutt",BIODEGRADABLE);
@@ -337,9 +346,9 @@ public class PlayActivity extends AppCompatActivity {
         labels.add("plasticbottle");categories.put("plasticbottle",NON_BIODEGRADABLE);
         labels.add("plasticene");categories.put("plasticene",NON_BIODEGRADABLE);
         labels.add("rag");categories.put("rag",BIODEGRADABLE);
-        labels.add("tabletcapsule");categories.put("tabletcapsule",BIODEGRADABLE);
+        labels.add("tabletcapsule");categories.put("tabletcapsule",NON_BIODEGRADABLE);
         labels.add("thermometer");categories.put("thermometer",NON_BIODEGRADABLE);
-        labels.add("toothbrush");categories.put("toothbrush",BIODEGRADABLE);
+        labels.add("toothbrush");categories.put("toothbrush",NON_BIODEGRADABLE);
         labels.add("toothpastetube");categories.put("toothpastetube",NON_BIODEGRADABLE);
         labels.add("toothpick");categories.put("toothpick",BIODEGRADABLE);
         labels.add("traditionalChinesemedicine");categories.put("traditionalChinesemedicine",BIODEGRADABLE);
