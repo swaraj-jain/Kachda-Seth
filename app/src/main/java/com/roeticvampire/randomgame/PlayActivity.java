@@ -181,6 +181,9 @@ public class PlayActivity extends AppCompatActivity {
         else{
             bottomTextView.setText("Oops!\nThat wasn't right!"+((result==BIODEGRADABLE)?bioMessage:nonbioMessage));
         }
+        if(result==BIODEGRADABLE)
+            currImage.setImageResource(R.drawable.green_dustbin_min);
+        else currImage.setImageResource(R.drawable.blue_dustbin_min);
         playAgain_btn.setClickable(true);
         checkLDB_btn.setClickable(true);
 
