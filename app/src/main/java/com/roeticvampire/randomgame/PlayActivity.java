@@ -65,7 +65,22 @@ public class PlayActivity extends AppCompatActivity {
     ImageButton biod_btn,nonbiod_btn, checkLDB_btn,playAgain_btn;
     LinearLayout pregamelayer,postgamelayer;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    HashMap<String,Integer> categories;
+    private HashMap<String,Integer> categories;
+    private HashMap<String,Integer> r_categories;
+    private HashMap<Integer,String> responseTags;
+
+    private static final int NORECYCLE_NOREUSE =0;
+    private static final int RECYCLE_NOREUSE =1;
+    private static final int NORECYCLE_REUSE =2;
+    private static final int RECYCLE_REUSE =3;
+    private static String NORECYCLE_NOREUSE_MSG="\n\nThis stuff is neither recyclable, nor reusable.\nTry to minimize using it.";
+    private static String RECYCLE_NOREUSE_MSG="\n\nThis stuff is recyclable, but not reusable.";
+    private static String NORECYCLE_REUSE_MSG="\n\nThis stuff is not recyclable, but reusable.\nTry to preserve it.";
+    private static String RECYCLE_REUSE_MSG="\n\nThis stuff is recyclable, and reusable too. This is a good waste.";
+    private static String r_result;
+
+
+
     private static final float IMAGE_MEAN = 0.0f;
     private static final float IMAGE_STD = 1.0f;
     private static final float PROBABILITY_MEAN = 0.0f;
@@ -175,11 +190,15 @@ public class PlayActivity extends AppCompatActivity {
         if(response==result){
             //correct answer
             //score=50; //Need a better cooler function for this
-            bottomTextView.setText("Congratulations!\nThat was accurate!\nYou've gained "+score+" points"+((result==BIODEGRADABLE)?bioMessage:nonbioMessage));
+            bottomTextView.setText("Congratulations!\nThat was accurate!\nYou've gained "+score+" points"+(responseTags.get(r_categories.get(r_result))));
+           // bottomTextView.setText("Congratulations!\nThat was accurate!\nYou've gained "+score+" points");
+
             updateScorecard();
         }
         else{
-            bottomTextView.setText("Oops!\nThat wasn't right!"+((result==BIODEGRADABLE)?bioMessage:nonbioMessage));
+           bottomTextView.setText("Oops!\nThat wasn't right!"+(responseTags.get(r_categories.get(r_result))));
+           // bottomTextView.setText("Oops!\nThat wasn't right!");
+
         }
         if(result==BIODEGRADABLE)
             currImage.setImageResource(R.drawable.green_dustbin_min);
@@ -312,6 +331,7 @@ public class PlayActivity extends AppCompatActivity {
             if (entry.getValue()==maxValueInMap) {
                 Log.d("Bro", "The identified object is: "+entry.getKey()+" "+entry.getValue());
                 result=categories.get(entry.getKey());
+                r_result=entry.getKey();
                 score=(int)Math.max(5000*entry.getValue(),10f);
                 Log.d("Bro", "Score to get is: "+score+" and the answer is "+(result==BIODEGRADABLE?"BIODERADABLE":"NONBIODEGRADABLE"));
                 bottomTextView.setText(entry.getKey()); //________________________FOR NOW ONLY
@@ -322,40 +342,49 @@ public class PlayActivity extends AppCompatActivity {
     void initialize(){
         labels = new ArrayList<>();
         categories=new HashMap<String,Integer>();
-        labels.add("Xlight");   categories.put("Xlight",NON_BIODEGRADABLE);
-        labels.add("bandaid");categories.put("bandaid",BIODEGRADABLE);
-        labels.add("battery");categories.put("battery",NON_BIODEGRADABLE);
-        labels.add("bowlsanddishes");categories.put("bowlsanddishes",BIODEGRADABLE);
-        labels.add("bread");categories.put("bread",BIODEGRADABLE);
-        labels.add("bulb");categories.put("bulb",NON_BIODEGRADABLE);
-        labels.add("cans");categories.put("cans",NON_BIODEGRADABLE);
-        labels.add("carton");categories.put("carton",BIODEGRADABLE);
-        labels.add("chopsticks");categories.put("chopsticks",BIODEGRADABLE);
-        labels.add("cigarettebutt");categories.put("cigarettebutt",BIODEGRADABLE);
-        labels.add("diapers");categories.put("diapers",NON_BIODEGRADABLE);
-        labels.add("facialmask");categories.put("facialmask",BIODEGRADABLE);
-        labels.add("glassbottle");categories.put("glassbottle",NON_BIODEGRADABLE);
-        labels.add("leaflet");categories.put("leaflet",BIODEGRADABLE);
-        labels.add("leftovers");categories.put("leftovers",BIODEGRADABLE);
-        labels.add("medicinebottle");categories.put("medicinebottle",NON_BIODEGRADABLE);
-        labels.add("milkbox");categories.put("milkbox",BIODEGRADABLE);
-        labels.add("nailpolishbottle");categories.put("nailpolishbottle",NON_BIODEGRADABLE);
-        labels.add("napkin");categories.put("napkin",BIODEGRADABLE);
-        labels.add("newspaper");categories.put("newspaper",BIODEGRADABLE);
-        labels.add("nut");categories.put("nut",BIODEGRADABLE);
-        labels.add("penholder");categories.put("penholder",NON_BIODEGRADABLE);
-        labels.add("pesticidebottle");categories.put("pesticidebottle",NON_BIODEGRADABLE);
-        labels.add("plasticbag");categories.put("plasticbag",NON_BIODEGRADABLE);
-        labels.add("plasticbottle");categories.put("plasticbottle",NON_BIODEGRADABLE);
-        labels.add("plasticene");categories.put("plasticene",NON_BIODEGRADABLE);
-        labels.add("rag");categories.put("rag",BIODEGRADABLE);
-        labels.add("tabletcapsule");categories.put("tabletcapsule",NON_BIODEGRADABLE);
-        labels.add("thermometer");categories.put("thermometer",NON_BIODEGRADABLE);
-        labels.add("toothbrush");categories.put("toothbrush",NON_BIODEGRADABLE);
-        labels.add("toothpastetube");categories.put("toothpastetube",NON_BIODEGRADABLE);
-        labels.add("toothpick");categories.put("toothpick",BIODEGRADABLE);
-        labels.add("traditionalChinesemedicine");categories.put("traditionalChinesemedicine",BIODEGRADABLE);
-        labels.add("watermelonrind");categories.put("watermelonrind",BIODEGRADABLE);
+        r_categories=new HashMap<String,Integer>();
+        responseTags=new HashMap<Integer, String>();
+        labels.add("Xlight");   categories.put("Xlight",NON_BIODEGRADABLE);r_categories.put("Xlight",RECYCLE_REUSE);
+        labels.add("bandaid");categories.put("bandaid",BIODEGRADABLE);r_categories.put("bandaid",NORECYCLE_NOREUSE);
+        labels.add("battery");categories.put("battery",NON_BIODEGRADABLE);r_categories.put("battery",NORECYCLE_NOREUSE);
+        labels.add("bowlsanddishes");categories.put("bowlsanddishes",BIODEGRADABLE);r_categories.put("bowlsanddishes",NORECYCLE_NOREUSE);
+        labels.add("bread");categories.put("bread",BIODEGRADABLE);r_categories.put("bread",NORECYCLE_NOREUSE);
+        labels.add("bulb");categories.put("bulb",NON_BIODEGRADABLE);r_categories.put("bulb",NORECYCLE_NOREUSE);
+        labels.add("cans");categories.put("cans",NON_BIODEGRADABLE);r_categories.put("cans",RECYCLE_REUSE);
+        labels.add("carton");categories.put("carton",BIODEGRADABLE);r_categories.put("carton",RECYCLE_REUSE);
+        labels.add("chopsticks");categories.put("chopsticks",BIODEGRADABLE);r_categories.put("chopsticks",RECYCLE_NOREUSE);
+        labels.add("cigarettebutt");categories.put("cigarettebutt",BIODEGRADABLE);r_categories.put("cigarettebutt",NORECYCLE_NOREUSE);
+        labels.add("diapers");categories.put("diapers",NON_BIODEGRADABLE);r_categories.put("diapers",NORECYCLE_NOREUSE);
+        labels.add("facialmask");categories.put("facialmask",BIODEGRADABLE);r_categories.put("facialmask",NORECYCLE_NOREUSE);
+        labels.add("glassbottle");categories.put("glassbottle",NON_BIODEGRADABLE);r_categories.put("glassbottle",NORECYCLE_NOREUSE);
+        labels.add("leaflet");categories.put("leaflet",BIODEGRADABLE);r_categories.put("leaflet",RECYCLE_NOREUSE);
+        labels.add("leftovers");categories.put("leftovers",BIODEGRADABLE);r_categories.put("leftovers",NORECYCLE_NOREUSE);
+        labels.add("medicinebottle");categories.put("medicinebottle",NON_BIODEGRADABLE);r_categories.put("medicinebottle",NORECYCLE_NOREUSE);
+        labels.add("milkbox");categories.put("milkbox",BIODEGRADABLE);r_categories.put("milkbox",RECYCLE_NOREUSE);
+        labels.add("nailpolishbottle");categories.put("nailpolishbottle",NON_BIODEGRADABLE);r_categories.put("nailpolishbottle",NORECYCLE_NOREUSE);
+        labels.add("napkin");categories.put("napkin",BIODEGRADABLE);r_categories.put("napkin",RECYCLE_REUSE);
+        labels.add("newspaper");categories.put("newspaper",BIODEGRADABLE);r_categories.put("newspaper",RECYCLE_NOREUSE);
+        labels.add("nut");categories.put("nut",BIODEGRADABLE);r_categories.put("nut",NORECYCLE_NOREUSE);
+        labels.add("penholder");categories.put("penholder",NON_BIODEGRADABLE);r_categories.put("penholder",NORECYCLE_REUSE);
+        labels.add("pesticidebottle");categories.put("pesticidebottle",NON_BIODEGRADABLE);r_categories.put("pesticidebottle",RECYCLE_REUSE);
+        labels.add("plasticbag");categories.put("plasticbag",NON_BIODEGRADABLE);r_categories.put("plasticbag",RECYCLE_REUSE);
+        labels.add("plasticbottle");categories.put("plasticbottle",NON_BIODEGRADABLE);r_categories.put("plasticbottle",RECYCLE_REUSE);
+        labels.add("plasticene");categories.put("plasticene",NON_BIODEGRADABLE);r_categories.put("plasticene",RECYCLE_REUSE);
+        labels.add("rag");categories.put("rag",BIODEGRADABLE);r_categories.put("rag",RECYCLE_REUSE);
+        labels.add("tabletcapsule");categories.put("tabletcapsule",NON_BIODEGRADABLE);r_categories.put("tabletcapsule",NORECYCLE_NOREUSE);
+        labels.add("thermometer");categories.put("thermometer",NON_BIODEGRADABLE);r_categories.put("thermometer",NORECYCLE_REUSE);
+        labels.add("toothbrush");categories.put("toothbrush",NON_BIODEGRADABLE);r_categories.put("toothbrush",RECYCLE_REUSE);
+        labels.add("toothpastetube");categories.put("toothpastetube",NON_BIODEGRADABLE);r_categories.put("toothpastetube",NORECYCLE_REUSE);
+        labels.add("toothpick");categories.put("toothpick",BIODEGRADABLE);r_categories.put("toothpick",RECYCLE_NOREUSE);
+        labels.add("traditionalChinesemedicine");categories.put("traditionalChinesemedicine",BIODEGRADABLE);r_categories.put("traditionalChinesemedicine",RECYCLE_REUSE);
+        labels.add("watermelonrind");categories.put("watermelonrind",BIODEGRADABLE);r_categories.put("watermelonrind",RECYCLE_NOREUSE);
+
+        responseTags.put(NORECYCLE_NOREUSE,NORECYCLE_NOREUSE_MSG);
+        responseTags.put(NORECYCLE_REUSE,NORECYCLE_REUSE_MSG);
+        responseTags.put(RECYCLE_NOREUSE,RECYCLE_NOREUSE_MSG);
+        responseTags.put(RECYCLE_REUSE,RECYCLE_REUSE_MSG);
+
+
 
     }
 
