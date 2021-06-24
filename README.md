@@ -13,3 +13,6 @@ The current state of affairs is a far cry from the golden age of Indian history,
 # Financial and Market viability
 Our app will be a one of a kind experience, as there are not a lot ready-to-use waste classifiers so easily available to the young ones and this friendly to use. The app size is minimal and the leaderboard allows entry of upto 20, 000 users. No internet connection is required to identify the type of waste, but to update the leaderboard, internet connection is required. To make cash prizes viable, we can introduce Google Ads into our app.
 
+# Video demo of app
+https://youtu.be/u4CA2VRqY0A
+
