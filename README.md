@@ -1,4 +1,7 @@
 # ToysRsus
+This app was made during the first ever Toycathon organised by the govt. of India. Our team qualified to the Grand Finale of the hackathon in the Digital Toys Track.
+
+# Intro to Project
 Our app is basically an interactive way for youngsters to learn about the types of wastes and how to classify them. The user is allowed to capture the image of any waste item and the app will be able to identify its type (biodegradable/non-biodegradable) with a high accuracy. Learning is made fun by making the users guess the waste type by looking at any waste image, and accordingly awarding them points. 
 We used a deep learning model to get the predictions, i.e. classify wastes into 34 categories. These categories can then be classified into degradable and non-degradable. The user privacy is maintained as the photo captured is only stored temporarily.
 Our app is unique in the way that it gamifies the learning of waste types and makes responsible and aware citizens.
