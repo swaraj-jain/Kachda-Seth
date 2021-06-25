@@ -1,5 +1,5 @@
 # Kachda Seth
-This app was made during the first ever Toycathon organised by the govt. of India. Our team qualified to the Grand Finale of the hackathon in the Digital Toys Track.
+This app was made during the first ever Toycathon organised by the govt. of India. Our team qualified to the Grand Finale of the hackathon in the Digital Toys Track .
 
 ## Table of Contents
 - [Introduction](#Intro-to-Project)
