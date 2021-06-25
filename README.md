@@ -1,5 +1,5 @@
 # Kachda Seth
-This app was made during the first ever Toycathon organised by the govt. of India. Our team qualified to the Grand Finale of the hackathon in the Digital Toys Track.
+This app was made during the first ever Toycathon organised by the govt. of India. Our team qualified to the Grand Finale of the hackathon in the Digital Toys Track .
 
 # Intro to Project
 Our app is basically an interactive way for youngsters to learn about the types of wastes and how to classify them. The user is allowed to capture the image of any waste item and the app will be able to identify its type (biodegradable/non-biodegradable) with a high accuracy. Learning is made fun by making the users guess the waste type by looking at any waste image, and accordingly awarding them points. 
